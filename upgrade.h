@@ -14,6 +14,9 @@ bool UpgradeBegin(void);
 // UpgradeWrite 写入数据
 bool UpgradeWrite(uint8_t* data, int size);
 
+// UpgradeGetOffset 读取偏移地址
+int UpgradeGetOffset(void);
+
 // UpgradeEnd 结束升级.成功会自动重启加载新程序
 bool UpgradeEnd(void);
 

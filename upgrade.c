@@ -13,8 +13,9 @@
 #define TAG "upgrade"
 
 static bool isBegin = false;
-static esp_ota_handle_t updateHandle = 0 ;
+static esp_ota_handle_t updateHandle = 0;
 const esp_partition_t* updatePartition = NULL;
+static int offset = 0;
 
 // UpgradeBegin 开始升级
 bool UpgradeBegin(void) {
@@ -39,6 +40,7 @@ bool UpgradeBegin(void) {
     }
 
     LI(TAG, "begin upgrade");
+    offset = 0;
     isBegin = true;
     return true;
 }
@@ -60,7 +62,16 @@ bool UpgradeWrite(uint8_t* data, int size) {
         LE(TAG, "esp_ota_write error!");
         return false;
     }
+    offset += size;
     return true;
+}
+
+// UpgradeGetOffset 读取偏移地址
+int UpgradeGetOffset(void) {
+    if (isBegin == false) {
+        return 0;
+    }
+    return offset;
 }
 
 // UpgradeEnd 结束升级.成功会自动重启加载新程序
