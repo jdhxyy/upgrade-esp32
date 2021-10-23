@@ -52,7 +52,7 @@ bool UpgradeWrite(uint8_t* data, int size) {
         return false;
     }
 
-    LI(TAG, "write data len:%d", size);
+    LI(TAG, "write data len:%d offset:%d", size, offset);
     LaganPrintHex(TAG, LAGAN_LEVEL_DEBUG, data, size);
 
     if (esp_ota_write(updateHandle, data, size) != ESP_OK) {
