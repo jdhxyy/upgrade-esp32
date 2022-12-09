@@ -23,4 +23,7 @@ bool UpgradeEnd(void);
 // UpgradeAbort 中止升级
 void UpgradeAbort(void);
 
+// UpgradeIsBusy 是否升级中
+bool UpgradeIsBusy(void);
+
 #endif

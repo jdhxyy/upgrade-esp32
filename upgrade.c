@@ -28,10 +28,10 @@ bool UpgradeBegin(void) {
         LE(TAG, "begin failed!get partition failed");
         return false;
     }
-    LI(TAG, "partition subtype %d at offset 0x%x", updatePartition->subtype, 
+    LI(TAG, "partition subtype %d at offset 0x%x", updatePartition->subtype,
         updatePartition->address);
-    
-    esp_err_t err = esp_ota_begin(updatePartition, OTA_WITH_SEQUENTIAL_WRITES, 
+
+    esp_err_t err = esp_ota_begin(updatePartition, OTA_WITH_SEQUENTIAL_WRITES,
         &updateHandle);
     if (err != ESP_OK) {
         LE(TAG, "begin failed!esp ota begin failed");
@@ -58,7 +58,7 @@ bool UpgradeWrite(uint8_t* data, int size) {
     if (esp_ota_write(updateHandle, data, size) != ESP_OK) {
         esp_ota_abort(updateHandle);
         isBegin = false;
-        
+
         LE(TAG, "esp_ota_write error!");
         return false;
     }
@@ -113,4 +113,9 @@ void UpgradeAbort(void) {
 
     esp_ota_abort(updateHandle);
     isBegin = false;
+}
+
+// UpgradeIsBusy ÊÇ·ñÉý¼¶ÖÐ
+bool UpgradeIsBusy(void) {
+    return isBegin;
 }
