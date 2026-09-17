@@ -1,5 +1,5 @@
 // Copyright 2021-2021 The jdh99 Authors. All rights reserved.
-// Éı¼¶Ä£¿é
+// å‡çº§æ¨¡å—
 // Authors: jdh99 <jdh821@163.com>
 
 #include "upgrade.h"
@@ -17,7 +17,7 @@ static esp_ota_handle_t updateHandle = 0;
 const esp_partition_t* updatePartition = NULL;
 static int offset = 0;
 
-// UpgradeBegin ¿ªÊ¼Éı¼¶
+// UpgradeBegin å¼€å§‹å‡çº§
 bool UpgradeBegin(void) {
     if (isBegin) {
         return true;
@@ -45,7 +45,7 @@ bool UpgradeBegin(void) {
     return true;
 }
 
-// UpgradeWrite Ğ´ÈëÊı¾İ
+// UpgradeWrite å†™å…¥æ•°æ®
 bool UpgradeWrite(uint8_t* data, int size) {
     if (isBegin == false) {
         LW(TAG, "write failed!is not upgrade");
@@ -66,7 +66,7 @@ bool UpgradeWrite(uint8_t* data, int size) {
     return true;
 }
 
-// UpgradeGetOffset ¶ÁÈ¡Æ«ÒÆµØÖ·
+// UpgradeGetOffset è¯»å–åç§»åœ°å€
 int UpgradeGetOffset(void) {
     if (isBegin == false) {
         return 0;
@@ -74,13 +74,15 @@ int UpgradeGetOffset(void) {
     return offset;
 }
 
-// UpgradeEnd ½áÊøÉı¼¶.³É¹¦»á×Ô¶¯ÖØÆô¼ÓÔØĞÂ³ÌĞò
+// UpgradeEnd ç»“æŸå‡çº§.æˆåŠŸä¼šè‡ªåŠ¨é‡å¯åŠ è½½æ–°ç¨‹åº
 bool UpgradeEnd(void) {
     if (isBegin == false) {
         return true;
     }
 
     LI(TAG, "end upgrade");
+
+    isBegin = false;
 
     esp_err_t err = esp_ota_end(updateHandle);
     if (err != ESP_OK) {
@@ -101,11 +103,10 @@ bool UpgradeEnd(void) {
 
     LI(TAG, "Prepare to restart system!");
     esp_restart();
-    isBegin = false;
     return true;
 }
 
-// UpgradeAbort ÖĞÖ¹Éı¼¶
+// UpgradeAbort ä¸­æ­¢å‡çº§
 void UpgradeAbort(void) {
     if (isBegin == false) {
         return;
@@ -115,7 +116,7 @@ void UpgradeAbort(void) {
     isBegin = false;
 }
 
-// UpgradeIsBusy ÊÇ·ñÉı¼¶ÖĞ
+// UpgradeIsBusy æ˜¯å¦å‡çº§ä¸­
 bool UpgradeIsBusy(void) {
     return isBegin;
 }
