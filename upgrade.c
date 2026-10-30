@@ -66,6 +66,38 @@ bool UpgradeWrite(uint8_t* data, int size) {
     return true;
 }
 
+// UpgradeFlush 刷写尾部不足16字节的数据
+// 说明:开启flash加密后,esp_ota_write会把不足16字节的尾部数据缓存在内存中,
+//      直到下一次写入或esp_ota_end才真正落盘.若要在结束升级前回读分区校验,必须先调用本接口
+bool UpgradeFlush(void) {
+    uint8_t padding[16] = {0};
+    int remainder = 0;
+    int paddingLen = 0;
+
+    if (isBegin == false) {
+        LW(TAG, "flush failed!is not upgrade");
+        return false;
+    }
+
+    remainder = offset % 16;
+    if (remainder == 0) {
+        return true;
+    }
+
+    // 补齐到16字节边界.补齐数据位于文件长度之外,不参与md5校验
+    paddingLen = 16 - remainder;
+    if (esp_ota_write(updateHandle, padding, paddingLen) != ESP_OK) {
+        esp_ota_abort(updateHandle);
+        isBegin = false;
+
+        LE(TAG, "esp_ota_write error when flush!");
+        return false;
+    }
+
+    LI(TAG, "flush padding len:%d data offset:%d", paddingLen, offset);
+    return true;
+}
+
 // UpgradeGetOffset 读取偏移地址
 int UpgradeGetOffset(void) {
     if (isBegin == false) {

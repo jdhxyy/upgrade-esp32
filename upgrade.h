@@ -1,5 +1,5 @@
 // Copyright 2021-2021 The jdh99 Authors. All rights reserved.
-// Éı¼¶Ä£¿é
+// å‡çº§æ¨¡å—
 // Authors: jdh99 <jdh821@163.com>
 
 #ifndef UPGRADE_H
@@ -8,22 +8,25 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// UpgradeBegin ¿ªÊ¼Éı¼¶
+// UpgradeBegin å¼€å§‹å‡çº§
 bool UpgradeBegin(void);
 
-// UpgradeWrite Ğ´ÈëÊı¾İ
+// UpgradeWrite å†™å…¥æ•°æ®
 bool UpgradeWrite(uint8_t* data, int size);
 
-// UpgradeGetOffset ¶ÁÈ¡Æ«ÒÆµØÖ·
+// UpgradeFlush åˆ·å†™å°¾éƒ¨ä¸è¶³16å­—èŠ‚çš„æ•°æ®.å›è¯»åˆ†åŒºæ ¡éªŒå‰å¿…é¡»è°ƒç”¨
+bool UpgradeFlush(void);
+
+// UpgradeGetOffset è¯»å–åç§»åœ°å€
 int UpgradeGetOffset(void);
 
-// UpgradeEnd ½áÊøÉı¼¶.³É¹¦»á×Ô¶¯ÖØÆô¼ÓÔØĞÂ³ÌĞò
+// UpgradeEnd ç»“æŸå‡çº§.æˆåŠŸä¼šè‡ªåŠ¨é‡å¯åŠ è½½æ–°ç¨‹åº
 bool UpgradeEnd(void);
 
-// UpgradeAbort ÖĞÖ¹Éı¼¶
+// UpgradeAbort ä¸­æ­¢å‡çº§
 void UpgradeAbort(void);
 
-// UpgradeIsBusy ÊÇ·ñÉı¼¶ÖĞ
+// UpgradeIsBusy æ˜¯å¦å‡çº§ä¸­
 bool UpgradeIsBusy(void);
 
 #endif
